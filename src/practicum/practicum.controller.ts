@@ -10,7 +10,7 @@ export class PracticumController {
 
     @HttpCode(HttpStatus.CREATED)
     @Post("register")
-    async Register(@Body() data:PracticumDTO){
-        await this.service.Register(data)
+    async Register(@Body() body:PracticumDTO){
+        return this.service.Register(body)
     }
 }
