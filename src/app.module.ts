@@ -8,9 +8,15 @@ import { ResearchModule } from './research/research.module';
 import { DatabaseModule } from './database/database.module';
 import { PracticumService } from './practicum/practicum.service';
 import { PracticumModule } from './practicum/practicum.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
-  imports: [ResearchModule, DatabaseModule, PracticumModule],
+  imports: [
+    ResearchModule,
+    DatabaseModule,
+    PracticumModule,
+    MailModule,
+  ],
   controllers: [AppController, ResearchController],
   providers: [AppService, ResearchService, DatabaseService, PracticumService],
 })
