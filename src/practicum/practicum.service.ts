@@ -1,11 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import { PracticumDTO } from './dto/practicum.dto';
+import { MailerService } from '@nestjs-modules/mailer';
+import { join } from 'path';
 
 @Injectable()
 export class PracticumService {
     constructor(
-        private prisma : DatabaseService
+        private prisma : DatabaseService,
+        private readonly MailerService:MailerService,
     ){}
 
     async GetEmail(email : string){
@@ -25,6 +28,7 @@ export class PracticumService {
     }
 
      async Register(data : PracticumDTO){
+        try {
             if(!data){
                 throw new BadRequestException("all fields are required")
             }
@@ -49,9 +53,29 @@ export class PracticumService {
                 {
                     data:data
                 }
-            )
+            );
+
+            await this.MailerService.sendMail({
+                            to:data.email,
+                            subject:'Terimakasih Telah Mendaftar!',
+                            template:'./thankyou',
+                            context:{
+                                name:data.name,
+                            },
+                            attachments:[
+                                {
+                                    filename:'logocps.png',
+                                    path:join(__dirname, './templates/images/logocps.png'),
+                                    cid:'logocps'
+                                }
+                            ]
+            });
     
             return {message:"status berhasil", data: result}
+            
+        } catch (error) {
+            console.error("error ", error)
+        }
     
         }
     
