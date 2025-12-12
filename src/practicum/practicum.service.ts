@@ -75,6 +75,7 @@ export class PracticumService {
             
         } catch (error) {
             console.error("error ", error)
+            throw error
         }
     
         }

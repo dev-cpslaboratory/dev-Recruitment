@@ -60,6 +60,7 @@ export class ResearchService {
             return {message:"status berhasil", data: result}
         } catch (error) {
             console.error("error: ", error)
+            throw error
         }
 
 
